@@ -1,6 +1,6 @@
 import {observer} from 'mobx-react-lite';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Button, Surface, Text} from 'react-native-paper';
+import {Button, Icon, Surface, Text} from 'react-native-paper';
 import {Pressable, StyleSheet, View} from 'react-native';
 import {useAppNavigation} from '../../RootStack';
 import {CartList} from './components/CartList';
@@ -27,7 +27,7 @@ export const CartView = observer(() => {
     <SafeAreaView style={{flex: 1, paddingVertical: 12}}>
       <View style={styles.container}>
         <Pressable onPress={navigation.goBack}>
-          <Text style={{fontSize: 32}}>{'<'}</Text>
+          <Icon size={32} source={'arrow-left'} />
         </Pressable>
         <Text style={{fontSize: 32, fontWeight: 'bold'}}>Корзина</Text>
       </View>

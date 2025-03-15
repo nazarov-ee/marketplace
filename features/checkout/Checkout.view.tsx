@@ -1,5 +1,5 @@
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Button, Text} from 'react-native-paper';
+import {Button, Icon, Text} from 'react-native-paper';
 import {FlashList} from '@shopify/flash-list';
 import {FC, useCallback} from 'react';
 import {IProduct} from '../../domain/IProduct';
@@ -48,7 +48,7 @@ export const CheckoutView = observer(() => {
     <SafeAreaView style={{flex: 1, paddingHorizontal: 16, paddingBottom: 12}}>
       <View style={styles.container}>
         <Pressable onPress={navigation.goBack}>
-          <Text style={{fontSize: 32}}>{'<'}</Text>
+          <Icon size={32} source={'arrow-left'} />
         </Pressable>
         <Text style={{fontSize: 32, fontWeight: 'bold'}}>Чекаут</Text>
       </View>
