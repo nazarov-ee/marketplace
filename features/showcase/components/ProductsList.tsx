@@ -78,7 +78,7 @@ const ProductsListItem: FC<{
 
       <View style={{flex: 1}}>
         <Text style={{marginTop: 4}} numberOfLines={1}>
-          {product.name} ({product.availableQuantity})
+          {product.name}
         </Text>
         <Text style={{fontSize: 12, opacity: 0.8}}>
           {product.weight.toFixed(0)}г

@@ -4,4 +4,6 @@ export interface IProduct {
   quantity: number;
   price: number;
   weight: number;
+  totalWeight: number;
+  availableQuantity: number;
 }

@@ -25,6 +25,8 @@ export class ShowcaseViewmodel {
   addProduct = (product: IShowcaseProduct) => {
     const cartProduct: IProduct = {
       id: product.id,
+      totalWeight: product.weight,
+      availableQuantity: product.availableQuantity,
       quantity: 1,
       weight: product.weight,
       name: product.name,

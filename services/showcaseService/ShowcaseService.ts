@@ -14,7 +14,7 @@ const generateProducts = (count: number): IShowcaseProduct[] => {
     weight: Math.random() * 100 + 20,
     name: faker.commerce.productName(),
     price: parseFloat(faker.commerce.price({min: 10000, max: 100000})),
-    availableQuantity: Math.floor(Math.random() * 50),
+    availableQuantity: Math.floor(Math.random() * 50) + 1,
   }));
 };
 
