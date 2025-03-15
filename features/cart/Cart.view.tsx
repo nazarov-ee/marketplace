@@ -12,6 +12,9 @@ export const CartView = observer(() => {
   const navigation = useAppNavigation();
 
   useEffect(() => {
+    if (!navigation.canGoBack()) {
+      return;
+    }
     when(
       () => cartService.productsToList.length === 0,
       () => {
@@ -21,7 +24,7 @@ export const CartView = observer(() => {
   }, [navigation]);
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1, paddingVertical: 12}}>
       <View style={styles.container}>
         <Pressable onPress={navigation.goBack}>
           <Text style={{fontSize: 32}}>{'<'}</Text>
@@ -34,6 +37,7 @@ export const CartView = observer(() => {
           style={{
             gap: 6,
             marginTop: 6,
+            padding: 12,
           }}>
           <Text style={{fontWeight: 'bold'}}>
             Сумма заказа: {cartService.totalSumInRoubles.toFixed(2)}₽

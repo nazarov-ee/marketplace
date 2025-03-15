@@ -45,7 +45,7 @@ export const CheckoutView = observer(() => {
   }
 
   return (
-    <SafeAreaView style={{flex: 1, paddingHorizontal: 16}}>
+    <SafeAreaView style={{flex: 1, paddingHorizontal: 16, paddingBottom: 12}}>
       <View style={styles.container}>
         <Pressable onPress={navigation.goBack}>
           <Text style={{fontSize: 32}}>{'<'}</Text>
