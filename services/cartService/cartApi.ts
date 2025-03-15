@@ -3,20 +3,28 @@ import {IProduct} from '../../domain/IProduct';
 import uuid from 'react-native-uuid';
 import {IOrderOption} from '../../domain/IOrderOption';
 
+const initialOrder: ICurrentOrder = {
+  id: 'initialOrder',
+  totalSum: 0,
+  totalWeight: 0,
+  options: [
+    {id: '1', title: 'Do not call', isEnabled: false},
+    {id: '2', title: 'Leave on door', isEnabled: false},
+    {id: '3', title: 'Extra 1', isEnabled: false},
+    {id: '4', title: 'Extra 2', isEnabled: false},
+    {id: '5', title: 'Extra 3', isEnabled: false},
+    {id: '6', title: 'Extra 4', isEnabled: false},
+  ],
+  products: {},
+};
+
 class CartApi {
-  order: ICurrentOrder = {
-    id: 'initialOrder',
-    totalSum: 0,
-    totalWeight: 0,
-    options: [
-      {id: '1', title: 'Do not call', isEnabled: false},
-      {id: '2', title: 'Leave on door', isEnabled: false},
-      {id: '3', title: 'Extra 1', isEnabled: false},
-      {id: '4', title: 'Extra 2', isEnabled: false},
-      {id: '5', title: 'Extra 3', isEnabled: false},
-      {id: '6', title: 'Extra 4', isEnabled: false},
-    ],
-    products: {},
+  order: ICurrentOrder = {...initialOrder};
+
+  submit = (order: ICurrentOrder) => {
+    console.log('order submitted!');
+    console.log(order);
+    this.order = {...initialOrder};
   };
 
   deleteProduct(id: string) {

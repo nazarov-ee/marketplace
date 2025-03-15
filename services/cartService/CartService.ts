@@ -13,11 +13,19 @@ class CartService implements ICartService {
     makeAutoObservable(this);
   }
 
+  order: ICurrentOrder | null = null;
+
+  submit() {
+    if (!this.order) {
+      return;
+    }
+    cartApi.submit(this.order);
+    this.order = null;
+  }
+
   toggleOption(option: IOrderOption) {
     option.isEnabled = cartApi.toggleOption(option) ?? false;
   }
-
-  order: ICurrentOrder | null = null;
 
   get productsToList(): Array<IProduct> {
     return !this.order ? [] : _.values(this.order?.products);

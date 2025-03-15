@@ -1,6 +1,6 @@
 import {observer} from 'mobx-react-lite';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Button, Text} from 'react-native-paper';
+import {Button, Surface, Text} from 'react-native-paper';
 import {Pressable, View} from 'react-native';
 import {useAppNavigation} from '../../RootStack';
 import {CartList} from './components/CartList';
@@ -29,26 +29,31 @@ export const CartView = observer(() => {
       <View
         style={{
           flexDirection: 'row',
-          paddingHorizontal: 16,
           gap: 16,
           alignItems: 'center',
+          paddingHorizontal: 16,
         }}>
         <Pressable onPress={navigation.goBack}>
           <Text style={{fontSize: 32}}>{'<'}</Text>
         </Pressable>
         <Text style={{fontSize: 32, fontWeight: 'bold'}}>Cart</Text>
       </View>
-      <View style={{paddingHorizontal: 16, flex: 1}}>
+      <View style={{flex: 1}}>
         <CartList />
-        <Text>
-          Total sum: {((cartService.order?.totalSum ?? 0) / 100).toFixed(2)}₽
-        </Text>
-        <Text>
-          Total weight: {(cartService.order?.totalWeight ?? 0).toFixed(2)}г
-        </Text>
+        <Surface
+          style={{
+            gap: 6,
+            marginTop: 6,
+          }}>
+          <Text style={{fontWeight: 'bold'}}>
+            Total sum: {((cartService.order?.totalSum ?? 0) / 100).toFixed(2)}₽
+          </Text>
+          <Text style={{fontWeight: 'bold'}}>
+            Total weight: {(cartService.order?.totalWeight ?? 0).toFixed(2)}г
+          </Text>
+        </Surface>
         <Button
           onPress={() => navigation.navigate('checkout')}
-          style={{marginTop: 12}}
           mode={'contained-tonal'}>
           Checkout
         </Button>

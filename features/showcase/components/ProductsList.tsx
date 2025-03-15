@@ -2,7 +2,7 @@ import {FC} from 'react';
 import {IShowcaseProduct} from '../../../domain/IShowcaseProduct';
 import {FlashList} from '@shopify/flash-list';
 import {Image, View} from 'react-native';
-import {Button, Text} from 'react-native-paper';
+import {Button, Icon, IconButton, Text} from 'react-native-paper';
 import cartService from '../../../services/cartService/CartService';
 import {observer} from 'mobx-react-lite';
 
@@ -91,12 +91,7 @@ const ProductsListItem: FC<{
             gap: 6,
           }}>
           {quantityInCart > 0 && (
-            <Button
-              buttonColor={'#ad2525'}
-              onPress={onDelete}
-              mode={'contained'}>
-              -
-            </Button>
+            <IconButton icon={'minus'} onPress={onDelete} mode={'contained'} />
           )}
           {quantityInCart > 0 && (
             <View style={{alignItems: 'center'}}>
@@ -105,15 +100,18 @@ const ProductsListItem: FC<{
               </Text>
             </View>
           )}
-          <Button
-            disabled={product.availableQuantity === quantityInCart}
-            buttonColor={'#ad2525'}
-            onPress={onAdd}
-            mode={'contained'}>
-            {quantityInCart === 0
-              ? `${(product.price / 100).toFixed(0)}₽ +`
-              : '+'}
-          </Button>
+          {quantityInCart === 0 ? (
+            <Button onPress={onAdd} mode={'outlined'} icon={'plus'}>
+              {(product.price / 100).toFixed(0)}₽{' '}
+            </Button>
+          ) : (
+            <IconButton
+              icon={'plus'}
+              disabled={product.availableQuantity === quantityInCart}
+              onPress={onAdd}
+              mode={'contained'}
+            />
+          )}
         </View>
       </View>
     </View>
