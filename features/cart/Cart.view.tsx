@@ -6,20 +6,17 @@ import {useAppNavigation} from '../../RootStack';
 import {CartList} from './components/CartList';
 import {useEffect} from 'react';
 import cartService from '../../services/cartService/CartService';
-import {reaction} from 'mobx';
+import {reaction, when} from 'mobx';
 
 export const CartView = observer(() => {
   const navigation = useAppNavigation();
 
   useEffect(() => {
-    reaction(
-      () => cartService.productsToList.length,
+    when(
+      () => cartService.productsToList.length === 0,
       () => {
-        if (!cartService.productsToList.length) {
-          navigation.goBack();
-        }
+        navigation.goBack();
       },
-      {fireImmediately: true},
     );
   }, [navigation]);
 

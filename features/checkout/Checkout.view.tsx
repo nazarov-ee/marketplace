@@ -65,7 +65,7 @@ export const CheckoutView = observer(() => {
         <Text>Итоговая сумма: {cartService.totalSumInRoubles.toFixed(2)}₽</Text>
         <Text>
           <Text>
-            Итоговая сумма: {(cartService.order?.totalWeight).toFixed(2)} г.
+            Итоговый вес: {(cartService.order?.totalWeight).toFixed(2)} г.
           </Text>
         </Text>
       </View>

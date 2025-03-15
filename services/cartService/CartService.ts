@@ -47,7 +47,7 @@ class CartService implements ICartService {
   }
 
   get totalSumInRoubles() {
-    return this.order?.totalSum ?? 0 / 100;
+    return (this.order?.totalSum ?? 0) / 100;
   }
   get productsToList(): Array<IProduct> {
     return !this.order ? [] : _.values(this.order?.products);
