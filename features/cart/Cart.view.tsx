@@ -7,7 +7,6 @@ import {CartList} from './components/CartList';
 import {useEffect} from 'react';
 import cartService from '../../services/cartService/CartService';
 import {reaction} from 'mobx';
-import {CartOptions} from './components/CartOptions';
 
 export const CartView = observer(() => {
   const navigation = useAppNavigation();
@@ -36,7 +35,7 @@ export const CartView = observer(() => {
         <Pressable onPress={navigation.goBack}>
           <Text style={{fontSize: 32}}>{'<'}</Text>
         </Pressable>
-        <Text style={{fontSize: 32, fontWeight: 'bold'}}>Cart</Text>
+        <Text style={{fontSize: 32, fontWeight: 'bold'}}>Корзина</Text>
       </View>
       <View style={{flex: 1}}>
         <CartList />
@@ -46,16 +45,20 @@ export const CartView = observer(() => {
             marginTop: 6,
           }}>
           <Text style={{fontWeight: 'bold'}}>
-            Total sum: {((cartService.order?.totalSum ?? 0) / 100).toFixed(2)}₽
+            Сумма заказа:{' '}
+            {((cartService.order?.totalSum ?? 0) / 100).toFixed(2)}₽
           </Text>
           <Text style={{fontWeight: 'bold'}}>
-            Total weight: {(cartService.order?.totalWeight ?? 0).toFixed(2)}г
+            Итоговый вес: {(cartService.order?.totalWeight ?? 0).toFixed(2)}г
           </Text>
         </Surface>
         <Button
+          disabled={!cartService.isValidMinCheck}
           onPress={() => navigation.navigate('checkout')}
           mode={'contained-tonal'}>
-          Checkout
+          {cartService.isValidMinCheck
+            ? 'Оформить'
+            : 'Минимальная сумма заказа 1000₽!'}
         </Button>
       </View>
     </SafeAreaView>

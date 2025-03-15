@@ -9,7 +9,6 @@ export const CartButton = observer(() => {
 
   const handleNavigateToCart = () => navigation.navigate('cart');
 
-  console.log(cartService.order);
   if (!cartService.order || cartService.order.totalSum <= 0) {
     return null;
   }

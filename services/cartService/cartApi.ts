@@ -3,28 +3,43 @@ import {IProduct} from '../../domain/IProduct';
 import uuid from 'react-native-uuid';
 import {IOrderOption} from '../../domain/IOrderOption';
 
-const initialOrder: ICurrentOrder = {
-  id: 'initialOrder',
-  totalSum: 0,
-  totalWeight: 0,
-  options: [
-    {id: '1', title: 'Do not call', isEnabled: false},
-    {id: '2', title: 'Leave on door', isEnabled: false},
-    {id: '3', title: 'Extra 1', isEnabled: false},
-    {id: '4', title: 'Extra 2', isEnabled: false},
-    {id: '5', title: 'Extra 3', isEnabled: false},
-    {id: '6', title: 'Extra 4', isEnabled: false},
-  ],
-  products: {},
+const createInitialOrder = (): ICurrentOrder => {
+  return {
+    id: 'initialOrder',
+    totalSum: 0,
+    totalWeight: 0,
+    options: [
+      {id: '1', title: 'Позвонить по доставке', isEnabled: false},
+      {id: '2', title: 'Оставить у двери', isEnabled: false},
+      {id: '3', title: 'Опция 1', isEnabled: false},
+      {id: '4', title: 'Опция 2', isEnabled: false},
+      {id: '5', title: 'Опция 3', isEnabled: false},
+      {id: '6', title: 'Опция 4', isEnabled: false},
+    ],
+    products: {},
+  };
 };
 
 class CartApi {
-  order: ICurrentOrder = {...initialOrder};
+  order: ICurrentOrder = createInitialOrder();
 
   submit = (order: ICurrentOrder) => {
+    const isError = Math.random() > 0.5;
+    const isCriticalError = Math.random() > 0.8;
+
+    if (isCriticalError) {
+      throw new Error('Сервис недоступен');
+    }
+
+    if (isError) {
+      throw new Error(
+        `На складе не осталось ${Object.values(order.products)[0].name}`,
+      );
+    }
+
     console.log('order submitted!');
     console.log(order);
-    this.order = {...initialOrder};
+    this.order = createInitialOrder();
   };
 
   deleteProduct(id: string) {
@@ -56,12 +71,12 @@ class CartApi {
     }
     const existingProduct = this.order.products[product.id];
     if (!existingProduct) {
-      this.order.products[product.id] = product;
+      this.order.products[product.id] = {...product};
     } else {
       existingProduct.quantity += 1;
       existingProduct.totalWeight += existingProduct.weight;
     }
-    this.order.totalSum += product.quantity * product.price;
+    this.order.totalSum += product.price;
     this.order.totalWeight += product.weight;
     return this.order;
   };

@@ -20,7 +20,7 @@ export const ShowcaseView = observer(() => {
       ) : (
         <View style={{flex: 1, paddingHorizontal: 16, paddingTop: 12}}>
           <Text style={{fontSize: 32, marginBottom: 16, fontWeight: 'bold'}}>
-            Showcase
+            Каталог
           </Text>
           <ProductsList
             onAdd={viewModel.addProduct}

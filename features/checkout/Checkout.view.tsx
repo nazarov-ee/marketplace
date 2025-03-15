@@ -3,7 +3,7 @@ import {Button, Text} from 'react-native-paper';
 import {FlashList} from '@shopify/flash-list';
 import {FC, useCallback} from 'react';
 import {IProduct} from '../../domain/IProduct';
-import {Alert, View} from 'react-native';
+import {Alert, Pressable, View} from 'react-native';
 import cartService from '../../services/cartService/CartService';
 import {observer} from 'mobx-react-lite';
 import {useAppNavigation} from '../../RootStack';
@@ -13,50 +13,82 @@ export const CheckoutView = observer(() => {
   const navigation = useAppNavigation();
 
   const handleConfirmPress = useCallback(() => {
-    Alert.alert('Confirm', 'Do you confirm your order and options?', [
-      {
-        text: 'Yes!',
-        isPreferred: true,
-        onPress: () => {
-          cartService.submit();
-          navigation.dispatch(
-            CommonActions.reset({
-              index: 0,
-              routes: [{name: 'showcase'}],
-            }),
-          );
+    Alert.alert(
+      'Подтверждение заказа',
+      'Вы подтверждаете состав заказа и выбранные опции?',
+      [
+        {
+          text: 'Да!',
+          isPreferred: true,
+          onPress: () => {
+            try {
+              cartService.submit();
+              Alert.alert('Заказ создан!');
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{name: 'showcase'}],
+                }),
+              );
+            } catch (e) {
+              Alert.alert('Ошибка!', `${e}`);
+            }
+          },
         },
-      },
-      {text: 'No...', style: 'destructive'},
-    ]);
+        {text: 'Нет...', style: 'destructive'},
+      ],
+    );
   }, []);
+
+  if (!cartService.order) {
+    return null;
+  }
 
   return (
     <SafeAreaView style={{flex: 1, paddingHorizontal: 16}}>
-      <Text style={{fontSize: 32, marginBottom: 16, fontWeight: 'bold'}}>
-        Checkout
-      </Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          gap: 12,
+          alignItems: 'center',
+          marginBottom: 12,
+        }}>
+        <Pressable onPress={navigation.goBack}>
+          <Text style={{fontSize: 32}}>{'<'}</Text>
+        </Pressable>
+        <Text style={{fontSize: 32, fontWeight: 'bold'}}>Чекаут</Text>
+      </View>
 
       <View style={{flex: 1}}>
         <Text style={{fontWeight: 'bold', marginBottom: 4, fontSize: 16}}>
-          Your order
+          Ваш заказ
         </Text>
         <FlashList
           showsVerticalScrollIndicator={false}
           data={cartService.productsToList}
           renderItem={({item}) => <CheckoutListItem product={item} />}
         />
+        <Text>
+          Итоговая сумма: {(cartService.order?.totalSum / 100).toFixed(2)}₽
+        </Text>
+        <Text>
+          <Text>
+            Итоговая сумма: {(cartService.order?.totalWeight).toFixed(2)} г.
+          </Text>
+        </Text>
       </View>
-      <View style={{flex: 1}}>
-        <Text style={{fontWeight: 'bold'}}>Options</Text>
-        {cartService.order?.options
-          .filter(opt => opt.isEnabled)
-          .map(opt => {
-            return <Text key={opt.id}>{opt.title}</Text>;
-          })}
-      </View>
+      {cartService.order?.options.filter(opt => opt.isEnabled).length ? (
+        <View style={{flex: 1}}>
+          <Text style={{fontWeight: 'bold'}}>Выбранные опции</Text>
+          {cartService.order?.options
+            .filter(opt => opt.isEnabled)
+            .map(opt => {
+              return <Text key={opt.id}>{opt.title}</Text>;
+            })}
+        </View>
+      ) : null}
       <Button onPress={handleConfirmPress} mode={'contained'}>
-        Confirm order
+        Подтвердить заказ
       </Button>
     </SafeAreaView>
   );

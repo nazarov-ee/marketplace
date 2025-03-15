@@ -47,7 +47,10 @@ const CartListItem: FC<{item: IProduct}> = ({item}) => {
         />
         <View style={{gap: 4}}>
           <Text style={{fontWeight: 'bold'}}>{item.name}</Text>
-          <Text>{item.totalWeight.toFixed(0)}г</Text>
+          <Text>
+            {((item.price * item.quantity) / 100).toFixed()}₽,{' '}
+            {item.totalWeight.toFixed(0)}г
+          </Text>
 
           <View style={{flexDirection: 'row', gap: 2, alignItems: 'center'}}>
             <IconButton

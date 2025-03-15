@@ -11,7 +11,7 @@ type Props = {
 export const CartOptions: FC<Props> = ({options}) => {
   return (
     <View style={{flex: 1, paddingHorizontal: 12, gap: 4}}>
-      <Text style={{fontWeight: 'bold'}}>Options</Text>
+      <Text style={{fontWeight: 'bold'}}>Опции заказа</Text>
       {options.map(option => (
         <CartOption key={option.id} option={option} />
       ))}
