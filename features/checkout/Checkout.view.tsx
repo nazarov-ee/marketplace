@@ -3,7 +3,7 @@ import {Button, Text} from 'react-native-paper';
 import {FlashList} from '@shopify/flash-list';
 import {FC, useCallback} from 'react';
 import {IProduct} from '../../domain/IProduct';
-import {Alert, Pressable, View} from 'react-native';
+import {Alert, Pressable, StyleSheet, View} from 'react-native';
 import cartService from '../../services/cartService/CartService';
 import {observer} from 'mobx-react-lite';
 import {useAppNavigation} from '../../RootStack';
@@ -46,13 +46,7 @@ export const CheckoutView = observer(() => {
 
   return (
     <SafeAreaView style={{flex: 1, paddingHorizontal: 16}}>
-      <View
-        style={{
-          flexDirection: 'row',
-          gap: 12,
-          alignItems: 'center',
-          marginBottom: 12,
-        }}>
+      <View style={styles.container}>
         <Pressable onPress={navigation.goBack}>
           <Text style={{fontSize: 32}}>{'<'}</Text>
         </Pressable>
@@ -68,9 +62,7 @@ export const CheckoutView = observer(() => {
           data={cartService.productsToList}
           renderItem={({item}) => <CheckoutListItem product={item} />}
         />
-        <Text>
-          Итоговая сумма: {(cartService.order?.totalSum / 100).toFixed(2)}₽
-        </Text>
+        <Text>Итоговая сумма: {cartService.totalSumInRoubles.toFixed(2)}₽</Text>
         <Text>
           <Text>
             Итоговая сумма: {(cartService.order?.totalWeight).toFixed(2)} г.
@@ -112,3 +104,12 @@ const CheckoutListItem: FC<{product: IProduct}> = ({product}) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    gap: 12,
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+});

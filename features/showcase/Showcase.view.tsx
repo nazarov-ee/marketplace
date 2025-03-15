@@ -1,4 +1,4 @@
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {CartButton} from './components/CartButton';
 import {ProductsList} from './components/ProductsList';
 import {useMemo} from 'react';
@@ -11,17 +11,13 @@ export const ShowcaseView = observer(() => {
   const viewModel = useMemo(() => new ShowcaseViewmodel(), []);
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={styles.flex}>
       <CartButton />
       {viewModel.isLoading ? (
-        <View style={{justifyContent: 'center', flex: 1, alignItems: 'center'}}>
-          <ActivityIndicator />
-        </View>
+        <Loader />
       ) : (
-        <View style={{flex: 1, paddingHorizontal: 16, paddingTop: 12}}>
-          <Text style={{fontSize: 32, marginBottom: 16, fontWeight: 'bold'}}>
-            Каталог
-          </Text>
+        <View style={styles.container}>
+          <Text style={styles.header}>Каталог</Text>
           <ProductsList
             onAdd={viewModel.addProduct}
             onDelete={viewModel.deleteProduct}
@@ -32,3 +28,25 @@ export const ShowcaseView = observer(() => {
     </SafeAreaView>
   );
 });
+
+const styles = StyleSheet.create({
+  flex: {flex: 1},
+  container: {
+    flex: 1,
+    paddingHorizontal: 16,
+    paddingTop: 12,
+  },
+  header: {
+    fontSize: 32,
+    marginBottom: 16,
+    fontWeight: 'bold',
+  },
+});
+
+const Loader = () => {
+  return (
+    <View style={{justifyContent: 'center', flex: 1, alignItems: 'center'}}>
+      <ActivityIndicator />
+    </View>
+  );
+};

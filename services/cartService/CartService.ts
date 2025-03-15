@@ -46,6 +46,9 @@ class CartService implements ICartService {
     return this.order?.totalSum >= MIN_CHECK;
   }
 
+  get totalSumInRoubles() {
+    return this.order?.totalSum ?? 0 / 100;
+  }
   get productsToList(): Array<IProduct> {
     return !this.order ? [] : _.values(this.order?.products);
   }

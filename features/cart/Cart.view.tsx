@@ -1,7 +1,7 @@
 import {observer} from 'mobx-react-lite';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Button, Surface, Text} from 'react-native-paper';
-import {Pressable, View} from 'react-native';
+import {Pressable, StyleSheet, View} from 'react-native';
 import {useAppNavigation} from '../../RootStack';
 import {CartList} from './components/CartList';
 import {useEffect} from 'react';
@@ -25,13 +25,7 @@ export const CartView = observer(() => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <View
-        style={{
-          flexDirection: 'row',
-          gap: 16,
-          alignItems: 'center',
-          paddingHorizontal: 16,
-        }}>
+      <View style={styles.container}>
         <Pressable onPress={navigation.goBack}>
           <Text style={{fontSize: 32}}>{'<'}</Text>
         </Pressable>
@@ -45,8 +39,7 @@ export const CartView = observer(() => {
             marginTop: 6,
           }}>
           <Text style={{fontWeight: 'bold'}}>
-            Сумма заказа:{' '}
-            {((cartService.order?.totalSum ?? 0) / 100).toFixed(2)}₽
+            Сумма заказа: {cartService.totalSumInRoubles.toFixed(2)}₽
           </Text>
           <Text style={{fontWeight: 'bold'}}>
             Итоговый вес: {(cartService.order?.totalWeight ?? 0).toFixed(2)}г
@@ -63,4 +56,13 @@ export const CartView = observer(() => {
       </View>
     </SafeAreaView>
   );
+});
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    gap: 16,
+    alignItems: 'center',
+    paddingHorizontal: 16,
+  },
 });

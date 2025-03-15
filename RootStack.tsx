@@ -8,7 +8,6 @@ type RootStackParamList = {
   showcase: undefined;
   cart: undefined;
   checkout: undefined;
-  myOrders: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -22,7 +21,6 @@ export const RootStack = () => {
       <Stack.Screen name="showcase" component={ShowcaseView} />
       <Stack.Screen name="cart" component={CartView} />
       <Stack.Screen name="checkout" component={CheckoutView} />
-      <Stack.Screen name="myOrders" component={ShowcaseView} />
     </Stack.Navigator>
   );
 };
