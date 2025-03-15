@@ -1,4 +1,4 @@
-type AppError = 'service unavailable' | 'no sku left';
+type AppError = 'service unavailable';
 interface IAppConfig {
   minCheck: number;
   showcaseItemsCount: number;
@@ -12,6 +12,5 @@ export const AppConfig: IAppConfig = {
   showcaseItemsCount: 1000,
   errorProbabilities: {
     'service unavailable': 0.9,
-    'no sku left': 0.3,
   },
 };
