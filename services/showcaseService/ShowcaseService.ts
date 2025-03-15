@@ -1,10 +1,11 @@
 import {faker} from '@faker-js/faker';
 import {IShowcaseProduct} from '../../domain/IShowcaseProduct';
 import uuid from 'react-native-uuid';
+import {AppConfig} from '../../Config';
 class ShowcaseService {
   async get(): Promise<Array<IShowcaseProduct>> {
     await wait(1000);
-    return generateProducts(1000);
+    return generateProducts(AppConfig.showcaseItemsCount);
   }
 }
 
@@ -13,7 +14,9 @@ const generateProducts = (count: number): IShowcaseProduct[] => {
     id: uuid.v4(),
     weight: Math.random() * 100 + 20,
     name: faker.commerce.productName(),
-    price: parseFloat(faker.commerce.price({min: 10000, max: 100000})),
+    price: parseFloat(
+      faker.commerce.price({min: AppConfig.minPrice, max: AppConfig.maxPrice}),
+    ),
     availableQuantity: Math.floor(Math.random() * 50) + 1,
   }));
 };
