@@ -38,7 +38,7 @@ export const CheckoutView = observer(() => {
         {text: 'Нет...', style: 'destructive'},
       ],
     );
-  }, []);
+  }, [navigation]);
 
   if (!cartService.order) {
     return null;
