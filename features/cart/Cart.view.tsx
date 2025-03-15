@@ -6,7 +6,7 @@ import {useAppNavigation} from '../../RootStack';
 import {CartList} from './components/CartList';
 import {useEffect} from 'react';
 import cartService from '../../services/cartService/CartService';
-import {reaction, when} from 'mobx';
+import {when} from 'mobx';
 
 export const CartView = observer(() => {
   const navigation = useAppNavigation();
