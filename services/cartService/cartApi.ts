@@ -2,6 +2,7 @@ import {ICurrentOrder} from '../../domain/ICurrentOrder';
 import {IProduct} from '../../domain/IProduct';
 import uuid from 'react-native-uuid';
 import {IOrderOption} from '../../domain/IOrderOption';
+import {AppConfig} from '../../Config';
 
 const createInitialOrder = (): ICurrentOrder => {
   return {
@@ -23,18 +24,19 @@ const createInitialOrder = (): ICurrentOrder => {
 class CartApi {
   order: ICurrentOrder = createInitialOrder();
 
-  submit = (order: ICurrentOrder) => {
-    const isError = Math.random() > 0.5;
-    const isCriticalError = Math.random() > 0.8;
+  submit = (order: ICurrentOrder, trys = AppConfig.retryCounts): void => {
+    console.log('submit');
+    console.log(`trys left ${trys}`);
+    const isCriticalError =
+      Math.random() < AppConfig.errorProbabilities['service unavailable'];
 
     if (isCriticalError) {
-      throw new Error('Сервис недоступен');
-    }
-
-    if (isError) {
-      throw new Error(
-        `На складе не осталось ${Object.values(order.products)[0].name}`,
-      );
+      console.log('critical error!');
+      if (trys === 0) {
+        throw new Error('Сервис недоступен');
+      }
+      console.log('retry!');
+      return this.submit(order, trys - 1);
     }
 
     console.log('order submitted!');

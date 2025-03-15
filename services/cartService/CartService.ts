@@ -7,9 +7,8 @@ import {makeAutoObservable} from 'mobx';
 import _ from 'lodash';
 import {IOrderOption} from '../../domain/IOrderOption';
 import cartApi from './cartApi';
-import analyticsApi from '../analytics/analyticsApi';
-
-const MIN_CHECK = 1000 * 100;
+import analyticsService from '../analytics/analyticsService';
+import {AppConfig} from '../../Config';
 
 class CartService implements ICartService {
   constructor() {
@@ -24,7 +23,7 @@ class CartService implements ICartService {
     }
     try {
       cartApi.submit(this.order);
-      analyticsApi.trackEvent('ORDER SUBMIT', this.order);
+      analyticsService.trackEvent('ORDER SUBMIT', this.order);
       this.order = null;
     } catch (e) {
       throw e;
@@ -35,7 +34,7 @@ class CartService implements ICartService {
     if (!this.order) {
       return;
     }
-    analyticsApi.trackEvent('ORDER OPTION TOGGLE', this.order);
+    analyticsService.trackEvent('ORDER OPTION TOGGLE', this.order);
     option.isEnabled = cartApi.toggleOption(option) ?? false;
   }
 
@@ -43,7 +42,7 @@ class CartService implements ICartService {
     if (!this.order) {
       return false;
     }
-    return this.order?.totalSum >= MIN_CHECK;
+    return this.order?.totalSum >= AppConfig.minCheck;
   }
 
   get totalSumInRoubles() {
@@ -55,12 +54,12 @@ class CartService implements ICartService {
 
   addProduct(product: IProduct) {
     this.order = CartApi.addProduct(product);
-    analyticsApi.trackEvent('ORDER ADD PRODUCT', this.order);
+    analyticsService.trackEvent('ORDER ADD PRODUCT', this.order);
   }
 
   deleteProduct(id: string) {
     this.order = CartApi.deleteProduct(id);
-    analyticsApi.trackEvent('ORDER DELETE PRODUCT', this.order);
+    analyticsService.trackEvent('ORDER DELETE PRODUCT', this.order);
   }
 }
 

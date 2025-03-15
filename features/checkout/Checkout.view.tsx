@@ -58,6 +58,7 @@ export const CheckoutView = observer(() => {
           Ваш заказ
         </Text>
         <FlashList
+          estimatedItemSize={60}
           showsVerticalScrollIndicator={false}
           data={cartService.productsToList}
           renderItem={({item}) => <CheckoutListItem product={item} />}

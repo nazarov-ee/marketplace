@@ -7,6 +7,7 @@ import {CartList} from './components/CartList';
 import {useEffect} from 'react';
 import cartService from '../../services/cartService/CartService';
 import {when} from 'mobx';
+import {AppConfig} from '../../Config';
 
 export const CartView = observer(() => {
   const navigation = useAppNavigation();
@@ -52,7 +53,7 @@ export const CartView = observer(() => {
           mode={'contained-tonal'}>
           {cartService.isValidMinCheck
             ? 'Оформить'
-            : 'Минимальная сумма заказа 1000₽!'}
+            : `Минимальная сумма заказа ${AppConfig.minCheck / 100}!`}
         </Button>
       </View>
     </SafeAreaView>
