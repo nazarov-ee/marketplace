@@ -5,6 +5,14 @@ import {AppConfig} from '../../Config';
 class ShowcaseService {
   async get(): Promise<Array<IShowcaseProduct>> {
     await wait(1000);
+
+    const isError =
+      Math.random() < AppConfig.errorProbabilities['showcase get items error'];
+
+    if (isError) {
+      throw new Error('Showcase service broken');
+    }
+
     return generateProducts(AppConfig.showcaseItemsCount);
   }
 }

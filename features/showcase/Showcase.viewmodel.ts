@@ -10,16 +10,28 @@ export class ShowcaseViewmodel {
     this.fetchData();
   }
   isLoading = false;
+  isError = false;
   products: Array<IShowcaseProduct> = [];
 
   fetchData = async () => {
-    this.isLoading = true;
-    const data = await ShowcaseService.get();
+    try {
+      this.isLoading = true;
+      this.isError = false;
+      const data = await ShowcaseService.get();
 
-    runInAction(() => {
-      this.products = data;
-      this.isLoading = false;
-    });
+      runInAction(() => {
+        this.products = data;
+        this.isLoading = false;
+      });
+    } catch (e) {
+      runInAction(() => {
+        this.isError = true;
+      });
+    } finally {
+      runInAction(() => {
+        this.isLoading = false;
+      });
+    }
   };
 
   addProduct = (product: IShowcaseProduct) => {
