@@ -1,8 +1,6 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {ShowcaseView} from './features';
+import {ShowcaseView, CheckoutView, CartView} from './features';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {CartView} from './features';
-import {CheckoutView} from './features/checkout/Checkout.view';
 
 type RootStackParamList = {
   showcase: undefined;
